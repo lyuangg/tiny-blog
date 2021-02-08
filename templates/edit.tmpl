@@ -1,0 +1,57 @@
+{{ template "header.tmpl" . }}
+
+        <article>
+            <form class="edit-form">
+                <h3>Edit</h3>
+                <label>Article Title</label>
+                <input type="text" id="title" placeholder="title" value="{{.post.Title}}">
+                <label>Article Content</label>
+                <textarea id="content" placeholder="Support markdown syntax">{{.post.Content}}</textarea>
+                <label>Publish</label>
+                <div>
+                    <input type="radio" id="pstatus0" name="pstatus" value="0" {{ if eq .post.Status 0 }} checked="checked" {{ end }}>
+                    <label for="pstatus0">Draft</label>
+                  </div>
+                  <div>
+                    <input type="radio" id="pstatus1" name="pstatus" value="1" {{ if eq .post.Status 1 }} checked="checked" {{ end }}>
+                    <label for="pstatus1">Public</label>
+                  </div>
+                <input type="submit" value="Save" id="saveBtn">
+             </form>
+
+        </article>
+
+<script>
+    $(function () {
+        $("#saveBtn").click(function () {
+            const pinfo = {
+                title: $("#title").val(),
+                content: $("#content").val(),
+                status: parseInt($('input:radio:checked').val())
+            }
+            console.log('pinfo', pinfo)
+            $.ajax({
+                type: "put",
+                url: '/api/post/{{.post.ID}}',
+                data: JSON.stringify(pinfo),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    console.log(result)
+                    if (result.code === 0) {
+                        alert('save success')
+                    } else {
+                        alert('save error')
+                    }
+                },
+                error: function(err) {
+                    console.log(err)
+                    alert('save error')
+                }
+            });
+            return false;
+        })
+    });
+</script>
+
+{{ template "footer.tmpl"}}

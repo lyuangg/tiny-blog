@@ -1,0 +1,58 @@
+{{ template "header.tmpl" . }}
+
+        <article>
+            <form class="edit-form">
+                <h3>Add</h3>
+                <label>Article Title</label>
+                <input type="text" id="title" placeholder="title">
+                <label>Article Content</label>
+                <textarea id="content" placeholder="Support markdown syntax"></textarea>
+                <label>Publish</label>
+                <div>
+                    <input type="radio" id="pstatus0" name="pstatus" value="0" checked="checked">
+                    <label for="pstatus0">Draft</label>
+                  </div>
+                  <div>
+                    <input type="radio" id="pstatus1" name="pstatus" value="1">
+                    <label for="pstatus1">Public</label>
+                  </div>
+                <input type="submit" value="Save" id="saveBtn">
+             </form>
+
+        </article>
+
+<script>
+    $(function () {
+        $("#saveBtn").click(function () {
+            const pinfo = {
+                title: $("#title").val(),
+                content: $("#content").val(),
+                status: parseInt($('input:radio:checked').val())
+            }
+            console.log('pinfo', pinfo)
+            $.ajax({
+                type: "post",
+                url: '/api/post',
+                data: JSON.stringify(pinfo),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    console.log(result)
+                    if (result.code === 0) {
+                        alert('save success')
+                        window.location.href = "/"
+                    } else {
+                        alert('save error')
+                    }
+                },
+                error: function(err) {
+                    console.log(err)
+                    alert('save error')
+                }
+            });
+            return false;
+        })
+    });
+</script>
+
+{{ template "footer.tmpl"}}

@@ -1,0 +1,48 @@
+{{ template "header.tmpl" . }}
+
+<article>
+    <form class="login-form" method="post" action="/">
+        <h3>profile</h3>
+        <label>Your Name</label>
+        <input type="text" name="username" id="username" value="{{.user.Name}}">
+        <label>New Password</label>
+        <input type="password" name="password" id="password" placeholder="password">
+        <input type="submit" id="saveBtn" value="Save">
+    </form>
+
+</article>
+
+<script>
+    $(function () {
+        $("#saveBtn").click(function () {
+            const pinfo = {
+                id: {{.user.ID}},
+                username: $("#username").val(),
+                password: $("#password").val(),
+            }
+            console.log('pinfo', pinfo)
+            $.ajax({
+                type: "post",
+                url: '/api/profile',
+                data: JSON.stringify(pinfo),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    console.log(result)
+                    if (result.code === 0) {
+                        alert('save success')
+                    } else {
+                        alert('save error')
+                    }
+                },
+                error: function(err) {
+                    console.log(err)
+                    alert('save error')
+                }
+            });
+            return false;
+        })
+    });
+</script>
+
+{{ template "footer.tmpl"}}

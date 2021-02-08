@@ -1,0 +1,49 @@
+{{ template "header.tmpl" . }}
+
+<article>
+    <ul class="post-list">
+        {{ range .posts }}
+            <li>
+                <span class="post-date">{{ .CreatedAt }}</span><a href="/post/{{.ID}}"
+                                                                  class="post-title">{{ .Title }} </a>
+                {{ if gt $.user.ID 0 }}
+                    <span class="post-action"><a href="/edit/{{.ID}}">edit</a> <a
+                                onclick="del({{.ID}}, '{{.Title}}')">delete</a></span>
+                {{ end }}
+            </li>
+        {{ end }}
+
+    </ul>
+
+    {{.pageHtml}}
+
+</article>
+
+
+<script>
+    function del(id, title) {
+        if (confirm("delete " + title + " ?")) {
+            $.ajax({
+                type: "delete",
+                url: '/api/post/'+ id,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    console.log(result)
+                    if (result.code === 0) {
+                        alert('delete success')
+                        location.reload();
+                    } else {
+                        alert('delete error')
+                    }
+                },
+                error: function (err) {
+                    console.log(err)
+                    alert('delete error')
+                }
+            });
+        }
+    }
+
+</script>
+{{ template "footer.tmpl"}}

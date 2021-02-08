@@ -1,0 +1,30 @@
+# server config
+host: "127.0.0.1"
+port: 8086
+
+# debug,release,test
+mode: "debug"
+
+# blog config
+blog:
+  domain: "localhost"
+  name: "tiny-blog"
+  author: "tinyblog"
+  desc: "tiny-blog"
+  keywords: "tiny-blog"
+  pagesize: 10
+
+# logger
+log:
+  path: "./logs/tiny-blog"
+  level: "debug"
+  days: 7
+
+# db config
+db:
+  name: "tiny-blog"
+  host: "127.0.0.1"
+  port: 3306
+  user: "root"
+  password: "123456"
+  maxconns: 5

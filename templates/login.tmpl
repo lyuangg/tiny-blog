@@ -1,0 +1,15 @@
+{{ template "header.tmpl" . }}
+
+        <article>
+           <form class="login-form" method="post" action="/login">
+                <h3>Login</h3>
+                <label>Your email</label>
+                <input type="email" name="email" id="email" placeholder="you@email">
+                <label>Your password</label>
+                <input type="password" name="password" id="password" placeholder="password">
+                <input type="submit" value="Login">
+             </form>
+
+        </article>
+
+{{ template "footer.tmpl"}}
